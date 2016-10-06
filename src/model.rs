@@ -2178,7 +2178,11 @@ impl VoiceEvent {
 // Decode helpers
 
 fn remove(map: &mut BTreeMap<String, Value>, key: &str) -> Result<Value> {
-	map.remove(key).ok_or_else(|| Error::Decode("Unexpected absent key", Value::String(key.into())))
+//    map.remove(key).ok_or_else(|| Error::Decode("Unexpected absent key", Value::String(key.into())))
+    match map.remove(key) {
+        Some(v) => Ok(v),
+        None => Ok(Value::Null),
+    }
 }
 
 fn opt<T, F: FnOnce(Value) -> Result<T>>(map: &mut BTreeMap<String, Value>, key: &str, f: F) -> Result<Option<T>> {
