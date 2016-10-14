@@ -122,6 +122,9 @@ impl Connection {
 		}
 		let session_id = ready.session_id.clone();
 
+                // Make the receiver non-blocking
+                try!(receiver.set_nonblocking(true));
+
 		// return the connection
 		Ok((finish_connection!(
 			keepalive_channel: tx,
